@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/grafana/grafana/pkg/api/dtos"
+	"github.com/grafana/grafana/pkg/login/social"
 	"github.com/grafana/grafana/pkg/plugins"
 	"github.com/grafana/grafana/pkg/services/accesscontrol"
 	contextmodel "github.com/grafana/grafana/pkg/services/contexthandler/model"
@@ -246,6 +247,23 @@ func (hs *HTTPServer) getFrontendSettings(c *contextmodel.ReqContext) (*dtos.Fro
 			ConnMaxLifetime: hs.Cfg.SqlDatasourceMaxConnLifetimeDefault,
 		},
 	}
+
+	fetchSkipOrgRoleSyncEnabled := func(info *social.OAuthInfo) bool {
+		if info == nil {
+			return false
+		}
+		return info.SkipOrgRoleSync
+	}
+
+	//
+	oauthProviders := hs.SocialService.GetOAuthInfoProviders()
+	frontendSettings.Auth.GoogleSkipOrgRoleSync = fetchSkipOrgRoleSyncEnabled(oauthProviders[social.GoogleProviderName])
+	frontendSettings.Auth.GrafanaComSkipOrgRoleSync = fetchSkipOrgRoleSyncEnabled(oauthProviders[social.GrafanaComProviderName])
+	frontendSettings.Auth.GenericOAuthSkipOrgRoleSync = fetchSkipOrgRoleSyncEnabled(oauthProviders[social.GenericOAuthProviderName])
+	frontendSettings.Auth.AzureADSkipOrgRoleSync = fetchSkipOrgRoleSyncEnabled(oauthProviders[social.AzureADProviderName])
+	frontendSettings.Auth.GithubSkipOrgRoleSync = fetchSkipOrgRoleSyncEnabled(oauthProviders[social.GitHubProviderName])
+	frontendSettings.Auth.GitLabSkipOrgRoleSync = fetchSkipOrgRoleSyncEnabled(oauthProviders[social.GitlabProviderName])
+	frontendSettings.Auth.OktaSkipOrgRoleSync = fetchSkipOrgRoleSyncEnabled(oauthProviders[social.OktaProviderName])
 
 	if hs.Cfg.UnifiedAlerting.StateHistory.Enabled {
 		frontendSettings.UnifiedAlerting.AlertStateHistoryBackend = hs.Cfg.UnifiedAlerting.StateHistory.Backend

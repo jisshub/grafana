@@ -3,6 +3,8 @@ package login
 import (
 	"testing"
 
+	"github.com/grafana/grafana/pkg/login/social"
+	"github.com/grafana/grafana/pkg/login/social/socialtest"
 	"github.com/grafana/grafana/pkg/setting"
 	"github.com/stretchr/testify/assert"
 )
@@ -213,36 +215,42 @@ func TestIsExternallySynced(t *testing.T) {
 
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {
-			assert.Equal(t, tc.expected, IsExternallySynced(tc.cfg, tc.provider))
+			socialSvc := &socialtest.FakeSocialService{
+				ExpectedAuthInfoProvider: &social.OAuthInfo{Enabled: true},
+			}
+			assert.Equal(t, tc.expected, IsExternallySynced(tc.cfg, tc.provider, socialSvc))
 		})
 	}
 }
 
 func TestIsProviderEnabled(t *testing.T) {
 	testcases := []struct {
-		name     string
-		cfg      *setting.Cfg
-		provider string
-		expected bool
+		name      string
+		oauthInfo *social.OAuthInfo
+		provider  string
+		expected  bool
 	}{
 		// github
 		{
-			name:     "Github should return true if enabled",
-			cfg:      &setting.Cfg{GitHubAuthEnabled: true},
-			provider: GithubAuthModule,
-			expected: true,
+			name:      "Github should return true if enabled",
+			oauthInfo: &social.OAuthInfo{Enabled: true},
+			provider:  GithubAuthModule,
+			expected:  true,
 		},
 		{
-			name:     "Github should return false if not enabled",
-			cfg:      &setting.Cfg{},
-			provider: GithubAuthModule,
-			expected: false,
+			name:      "Github should return false if not enabled",
+			oauthInfo: &social.OAuthInfo{Enabled: false},
+			provider:  GithubAuthModule,
+			expected:  false,
 		},
 	}
 
 	for _, tc := range testcases {
 		t.Run(tc.name, func(t *testing.T) {
-			assert.Equal(t, tc.expected, IsProviderEnabled(tc.cfg, tc.provider))
+			socialSvc := &socialtest.FakeSocialService{
+				ExpectedAuthInfoProvider: tc.oauthInfo,
+			}
+			assert.Equal(t, tc.expected, IsProviderEnabled(setting.NewCfg(), tc.provider, socialSvc))
 		})
 	}
 }
