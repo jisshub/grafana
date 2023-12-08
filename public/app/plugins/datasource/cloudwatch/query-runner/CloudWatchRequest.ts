@@ -6,6 +6,7 @@ import {
   DataSourceInstanceSettings,
   DataSourceRef,
   getDataSourceRef,
+  getVariableName,
   ScopedVars,
 } from '@grafana/data';
 import { BackendDataSourceResponse, FetchResponse, getBackendSrv, TemplateSrv } from '@grafana/runtime';
@@ -16,7 +17,6 @@ import { AppNotificationTimeout } from 'app/types';
 
 import memoizedDebounce from '../memoizedDebounce';
 import { CloudWatchJsonData, CloudWatchQuery, Dimensions, MetricRequest, MultiFilters } from '../types';
-import { getVariableName } from '../utils/templateVariableUtils';
 
 export abstract class CloudWatchRequest {
   templateSrv: TemplateSrv;
