@@ -209,15 +209,16 @@ func (dr *DashboardServiceImpl) BuildSaveDashboardCommand(ctx context.Context, d
 	}
 
 	cmd := &dashboards.SaveDashboardCommand{
-		Dashboard: dash.Data,
-		Message:   dto.Message,
-		OrgID:     dto.OrgID,
-		Overwrite: dto.Overwrite,
-		UserID:    userID,
-		FolderID:  dash.FolderID, // nolint:staticcheck
-		FolderUID: dash.FolderUID,
-		IsFolder:  dash.IsFolder,
-		PluginID:  dash.PluginID,
+		Dashboard:  dash.Data,
+		Message:    dto.Message,
+		OrgID:      dto.OrgID,
+		Overwrite:  dto.Overwrite,
+		UserID:     userID,
+		FolderID:   dash.FolderID, // nolint:staticcheck
+		FolderUID:  dash.FolderUID,
+		IsFolder:   dash.IsFolder,
+		PluginID:   dash.PluginID,
+		Screenshot: dto.Screenshot,
 	}
 
 	if !dto.UpdatedAt.IsZero() {
@@ -581,6 +582,7 @@ func makeQueryResult(query *dashboards.FindPersistedDashboardsQuery, res []dashb
 				FolderUID:   item.FolderUID,
 				FolderTitle: item.FolderTitle,
 				Tags:        []string{},
+				Screenshot:  item.Screenshot,
 			}
 
 			// nolint:staticcheck
