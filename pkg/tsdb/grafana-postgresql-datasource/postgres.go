@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 
+	_ "github.com/jackc/pgx/v5/stdlib"
+
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
@@ -97,7 +99,7 @@ func (s *Service) newInstanceSettings(cfg *setting.Cfg) datasource.InstanceFacto
 			logger.Debug("GetEngine", "connection", cnnstr)
 		}
 
-		driverName := "postgres"
+		driverName := "pgx"
 		// register a proxy driver if the secure socks proxy is enabled
 		proxyOpts := proxyutil.GetSQLProxyOptions(cfg.SecureSocksDSProxy, dsInfo)
 		if sdkproxy.New(proxyOpts).SecureSocksProxyEnabled() {
