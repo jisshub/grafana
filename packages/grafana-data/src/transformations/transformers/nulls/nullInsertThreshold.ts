@@ -152,7 +152,13 @@ function nullInsertThreshold(
 
   // At the end of the sequence
   if (refFieldPseudoMax != null && refFieldPseudoMax > prevValue) {
-    while (prevValue + threshold < refFieldPseudoMax) {
+    const iterations = (refFieldPseudoMax - prevValue) / threshold;
+    let whileMax = refFieldPseudoMax;
+    const LOOP_MAX = 9999999;
+    if (iterations > LOOP_MAX) {
+      whileMax = threshold * LOOP_MAX + prevValue;
+    }
+    while (prevValue + threshold < whileMax) {
       refValuesNew.push(getInsertValue(prevValue, refFieldPseudoMax, threshold));
       prevValue += threshold;
     }
