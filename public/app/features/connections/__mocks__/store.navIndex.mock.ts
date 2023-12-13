@@ -25,7 +25,7 @@ export const navIndex: NavIndex = {
   'dashboards/browse': {
     id: 'dashboards/browse',
     text: 'Dashboards',
-    subTitle: 'Create and manage dashboards to visualize your data',
+    subTitle: 'fgfdgffd',
     icon: 'apps',
     url: '/dashboards',
     sortWeight: -1700,

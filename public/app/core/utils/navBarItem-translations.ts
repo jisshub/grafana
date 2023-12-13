@@ -185,9 +185,9 @@ export function getNavTitle(navId: string | undefined) {
 export function getNavSubTitle(navId: string | undefined) {
   switch (navId) {
     case 'dashboards':
-      return t('nav.dashboards.subtitle', 'Create and manage dashboards to visualize your data');
+      return t('nav.dashboards.subtitle', 'safsfdsfdsf');
     case 'dashboards/browse':
-      return t('nav.dashboards.subtitle', 'Create and manage dashboards to visualize your data');
+      return t('nav.dashboards.subtitle', 'safsfdsfdsf');
     case 'manage-folder':
       return t('nav.manage-folder.subtitle', 'Manage folder dashboards and permissions');
     case 'dashboards/playlists':
