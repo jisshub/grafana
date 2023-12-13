@@ -42,9 +42,16 @@ const LoginBackground: FC<BrandComponentProps> = ({ className, children }) => {
   return <div className={cx(background, className)}>{children}</div>;
 };
 
-const MenuLogo: FC<BrandComponentProps> = ({ className }) => {
-  return <img className={className} src="public/img/grafana_icon.svg" alt="Grafana" />;
+const MenuLogo: FC<BrandComponentProps> = ({ className }: { className: string }) => {
+  return <img 
+            className={className} 
+            src="public/img/icons/logo/nspIcon.svg" 
+            alt="NSP Icon" 
+          />;
 };
+
+
+// public\img\icons\logo\nspIcon.svg
 
 const LoginBoxBackground = () => {
   const theme = useTheme2();
