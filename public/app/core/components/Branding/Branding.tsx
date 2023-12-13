@@ -45,7 +45,7 @@ const LoginBackground: FC<BrandComponentProps> = ({ className, children }) => {
 const MenuLogo: FC<BrandComponentProps> = ({ className }: { className: string }) => {
   return <img 
             className={className} 
-            src="public/img/icons/logo/nspIcon.svg" 
+            src="public/img/grafana_icon.svg" 
             alt="NSP Icon" 
           />;
 };
